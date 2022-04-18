@@ -10,13 +10,13 @@
     user_email: mail2susantasadhukhan@gmail.com
 
   tasks:
-       - name: create a password for user {{user_name}}
-         shell: python -c 'import crypt,getpass; print(crypt.crypt(getpass.getpass(), crypt.mksalt(crypt.METHOD_SHA512)))'
-         register: password
+#        - name: create a password for user {{user_name}}
+#          shell: python -c 'import crypt,getpass; print(crypt.crypt(getpass.getpass(), crypt.mksalt(crypt.METHOD_SHA512)))'
+#          register: password
            
 
        - name: set passsword
-         set_fact: passwd='{{password.stdout}}'
+         set_fact: passwd='admin'
 
        - name: set user {{user_name}} as a global variable
          set_fact: user_name='{{user_name}}'
@@ -36,12 +36,12 @@
         
        - name: create a directory for ssh user {{user_name}}
          file:
-           path: ~/.ssh/{{group}}/{{user_name}}
+           path: /root/.ssh/{{group}}/{{user_name}}
            state: directory
 
        - name: create a ssh key for user {{user_name}}
          openssh_keypair:
-            path: "~/.ssh/{{group}}/{{user_name}}/id_{{user_name}}"
+            path: "/root/.ssh/{{group}}/{{user_name}}/id_{{user_name}}"
             type: rsa
             size: 4096
             state: present
@@ -49,7 +49,7 @@
 
 
        - name: encrypt private key for user {{user_name}}
-         command: openssl rsa -in ~/.ssh/{{group}}/{{user_name}}/id_{{user_name}} -out ~/.ssh/{{group}}/{{user_name}}/id_{{user_name}}.pem       
+         command: openssl rsa -in /root/.ssh/{{group}}/{{user_name}}/id_{{user_name}} -out /root/.ssh/{{group}}/{{user_name}}/id_{{user_name}}.pem       
          register: encrypt_private
 
        - debug:
@@ -58,8 +58,8 @@
 
        - name: Convert private key for user {{user_name}} to PKCS8 format with passphrase
          community.crypto.openssl_privatekey_convert:
-            src_path: ~/.ssh/{{group}}/{{user_name}}/id_{{user_name}}.pem
-            dest_path: ~/.ssh/{{group}}/{{user_name}}/id_{{user_name}}.key
+            src_path: /root/.ssh/{{group}}/{{user_name}}/id_{{user_name}}.pem
+            dest_path: /root/.ssh/{{group}}/{{user_name}}/id_{{user_name}}.key
             dest_passphrase: '{{passphrase}}'
             format: pkcs8    
            
@@ -117,7 +117,7 @@
               key: "{{item}}"
 
        with_file: 
-          - /home/ansadmin/.ssh/{{group}}/{{user}}/id_{{user}}.pub 
+          - /root/.ssh/{{group}}/{{user}}/id_{{user}}.pub 
 
      - name: check public dns for node
        command: curl http://checkip.amazonaws.com
@@ -169,5 +169,5 @@
              body: " Hi <h4>{{user_name}}</h4></br><p>your ssh private key passphrase <b>{{passphrase}}</b> and you are under a group <b>{{group}}</b>
                     Your system public ip is/are <b>{{public_ip}}</b> , you can connect remote server like <b>ssh -i private_key {{user}}@public_ip</b></p></br><p> never share private key with passphrase to anyone </p></br><p> If you face any kind of problem contact our devops administrator</p></br><p> <h3>Thank You</h3> </p>"
 
-             attach: /home/ansadmin/.ssh/{{group}}/{{user}}/id_{{user}}.key
+             attach: /root/.ssh/{{group}}/{{user}}/id_{{user}}.key
           delegate_to: localhost
