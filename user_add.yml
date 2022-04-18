@@ -96,7 +96,7 @@
           state: present
           regexp: '^%{{group}}'
           # :ALL for root access , for specific action :/usr/bin/specific_action           
-          line: '%{{group}} ALL=(ALL) NOPASSWD: All'
+          line: '%{{group}} ALL=(ALL) NOPASSWD:ALL'
           validate: 'visudo -cf %s'
 
      - name: Creating user {{user}} with specific access
