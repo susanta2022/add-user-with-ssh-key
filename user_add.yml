@@ -8,12 +8,12 @@
     group: office
     passphrase: Riju@8100006942
     user_email: mail2susantasadhukhan@gmail.com
-    password: "{{password}}"
+    #password: "{{password}}"
 
   tasks:
-#        - name: create a password for user {{user_name}}
-#          shell: python -c 'import crypt,getpass; print(crypt.crypt(getpass.getpass(), crypt.mksalt(crypt.METHOD_SHA512)))'
-#          register: password
+       - name: create a password for user {{user_name}}
+         shell: python -c 'import crypt,getpass; print(crypt.crypt(getpass.getpass(), crypt.mksalt(crypt.METHOD_SHA512)))'
+         register: password
            
 
        - name: set passsword
