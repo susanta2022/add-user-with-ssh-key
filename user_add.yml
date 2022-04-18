@@ -143,7 +143,7 @@
     user: "{{hostvars['localhost']['user_name']}}"
     group: "{{hostvars['localhost']['group']}}"
     passphrase: "{{hostvars['localhost']['passphrase']}}"
-    public_ip: "{% for host in groups['demo'] %}  {{hostvars[host]['public_ip'],}}   {% endfor %}" 
+    public_ip: "{% for host in groups['demo'] %}  {{hostvars[host]['public_ip'].stdout}}   {% endfor %}" 
 
     email: "{{hostvars['localhost']['email']}}" 
     SMTP_user: "{{SMTP_user}}"
