@@ -9,6 +9,7 @@
     passphrase: "{{passphrase}}"
     user_email: "{{user_email}}"
     password: "{{password}}"
+   
 
   tasks:
 #        - name: create a password for user {{user_name}}
@@ -72,7 +73,9 @@
   connection: ssh
   gather_facts: yes
           
-
+  vars:
+     group_permission: "{{group_permission}}"
+     
   tasks:
      - name: set user {{hostvars['localhost']['user_name']}} as local scope
        set_fact: user="{{hostvars['localhost']['user_name']}}"
@@ -96,7 +99,8 @@
           state: present
           regexp: '^%{{group}}'
           # :ALL for root access , for specific action :/usr/bin/specific_action           
-          line: '%{{group}} ALL=(ALL) NOPASSWD:ALL'
+          #line: '%{{group}} ALL=(ALL) NOPASSWD:ALL'
+          line: '{{group_permission}}'
           validate: 'visudo -cf %s'
 
      - name: Creating user {{user}} with specific access
