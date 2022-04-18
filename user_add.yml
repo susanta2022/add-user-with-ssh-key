@@ -5,9 +5,9 @@
 
   vars:
     user_name: "{{user_name}}"
-    group: office
-    passphrase: Riju@8100006942
-    user_email: mail2susantasadhukhan@gmail.com
+    group: "{{group}}"
+    passphrase: "{{passphrase}}"
+    user_email: "{{user_email}}"
     password: "{{password}}"
 
   tasks:
@@ -96,7 +96,7 @@
           state: present
           regexp: '^%{{group}}'
           # :ALL for root access , for specific action :/usr/bin/specific_action           
-          line: '%{{group}} ALL=(ALL) NOPASSWD: /usr/bin/systemctl'
+          line: '%{{group}} ALL=(ALL) NOPASSWD: All'
           validate: 'visudo -cf %s'
 
      - name: Creating user {{user}} with specific access
