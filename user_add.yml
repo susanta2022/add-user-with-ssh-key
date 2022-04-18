@@ -8,6 +8,7 @@
     group: office
     passphrase: Riju@8100006942
     user_email: mail2susantasadhukhan@gmail.com
+    password: "{{password}}"
 
   tasks:
 #        - name: create a password for user {{user_name}}
@@ -16,7 +17,7 @@
            
 
        - name: set passsword
-         set_fact: passwd='admin'
+         set_fact: passwd='{{password}}'
 
        - name: set user {{user_name}} as a global variable
          set_fact: user_name='{{user_name}}'
