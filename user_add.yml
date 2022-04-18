@@ -4,7 +4,7 @@
   connection: local
 
   vars:
-    user_name: {{user_name}}
+    user_name: "{{user_name}}"
     group: office
     passphrase: Riju@8100006942
     user_email: mail2susantasadhukhan@gmail.com
