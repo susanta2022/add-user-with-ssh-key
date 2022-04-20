@@ -1,15 +1,15 @@
 
-# How to assign a new user with ssh key password authentication
+## How to assign a new user with ssh key password authentication
 create or add user within a specific group and pass the ssh key to user email
 
-# prerequisite
+### prerequisite
 1> install ansible crypto by using flowing command </br>
 ```bash
 [root@ansible-semaphore-server ~]# ansible-galaxy collection install community.crypto
 ```
 2> install ansible semaphore by using flowing [git](https://www.google.com)
 
-## Installation
+### Installation
 1> [setup ansible server and node cluster with ansadmin sudo user using docker container or aws cloud](https://www.google.com)</br>
 2> install python3 using [sudo yum install python3]</br>
 3> create user with proper user group to add-user-passwd-auth.yml file like</br>
