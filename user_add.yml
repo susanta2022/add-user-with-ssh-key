@@ -87,6 +87,19 @@
 
      - debug:
          msg: "{{  hostvars['localhost']['passwd']  }}"
+         
+         
+     - name: <<<========== Checking if a /home/{{user}}/.ssh/ exists or not ==============>>>
+       stat:
+            path: "/home/{{user}}/.ssh"
+       register: ssh_path
+
+     - name : <============ set variable for ssh_path if path not exist =============>
+       set_fact: user_ssh_path=0
+
+     - name: <============ set variable for ssh_path if path is exist =============>
+       set_fact: user_ssh_path=1       
+       when: ssh_path.stat.exists
     
      - name:  Make sure we have a {{group}} group
        group:
@@ -144,7 +157,7 @@
     group: "{{hostvars['localhost']['group']}}"
     passphrase: "{{hostvars['localhost']['passphrase']}}"
     public_ip: "{% for host in groups['demo'] %}  {{hostvars[host]['public_ip'].stdout}}   {% endfor %}" 
-
+    user_path: "{% for host in groups['demo'] %}{{hostvars[host]['user_ssh_path']}}{% endfor %}"
     email: "{{hostvars['localhost']['email']}}" 
     SMTP_user: "{{SMTP_user}}"
     SMTP_PASSWD: "{{SMTP_PASSWD}}"
@@ -188,3 +201,4 @@
 
              attach: /root/.ssh/{{group}}/{{user}}/id_{{user}}.key
           delegate_to: localhost
+          when: not "1" in user_path      
